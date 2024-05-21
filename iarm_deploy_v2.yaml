@@ -1,0 +1,49 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: iarm
+  namespace: iarm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: iarm
+  template:
+    metadata:
+      labels:
+        app: iarm
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+               - key: kubernetes.io/arch
+                 operator: In
+                 values:
+                 - amd64
+    #          - key: kubernetes.io/hostname
+    #            operator: In
+    #            values:
+    #            - iccs-worker1
+                 #hostPID: true
+      #hostIPC: true
+      containers:
+        - name: iarm
+          image: panoschry/iarm:0.2
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 5035
+          volumeMounts:
+          - name: scrape-volume
+            mountPath: /scrape
+          - name: kube-config
+            mountPath: /home/iccs/.kube/config
+            subPath: config
+      volumes:
+        - name: scrape-volume
+          hostPath:
+            path: /scrape
+        - name: kube-config
+          hostPath:
+            path: /home/iccs/.kube
