@@ -22,12 +22,6 @@ spec:
                  operator: In
                  values:
                  - amd64
-    #          - key: kubernetes.io/hostname
-    #            operator: In
-    #            values:
-    #            - iccs-worker1
-                 #hostPID: true
-      #hostIPC: true
       containers:
         - name: iarm
           image: panoschry/iarm:0.2

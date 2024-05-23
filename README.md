@@ -2,17 +2,17 @@
 
 ### Description:
 IARM selects each time the most suitable nodes, in a Kubernetes cluster (MEC System),
-for the deployment of the Artificial Intelligence Functions (AIFs),
+for the deployment of Artificial Intelligence Functions (AIFs),
 leveraging system-level metrics and the accelerators' availability, while meetings specific SLOs, eg., low latency.
 It also supports dynamic migration of the AIFs between the accelerators/nodes
-of the cluster to accommodate for abrupt changes in the cluster.
+of the cluster (within the MEC System) to accommodate for abrupt changes..
 
 ---
 ## IARM's main function ##
 
-IARM is sent a AIFD.yml (AIF Descriptor yaml) as a request from MEO, for inference serving.
+IARM receives an AIF Descriptor yaml (AIFD.yml) as a request from MEO, for inference serving.
 It then chooses the most suitable AIF version and cluster node for the AIF deployment, and
-responds to MEO with a sorted list of the AIF deployment options.
+responds to MEO with a sorted list of the AIF deployment options. The supported versions span from multi-arch CPU (x86, ARM), and multi-framework (TF, TensorRT), to heterogeneous hardware (GPU, FPGA).
 
 **Input:**
 - **AIFD.yaml**: YAML file - The AIF Descriptor yaml
@@ -36,11 +36,11 @@ IARM's service runs on port 5035.
 
 ### Prerequisites:
 * #### MEO:
-**IP**: 192.168.1.228, **Port**: 30445
+**Default local IP considered**: 192.168.1.228, **Port**: 30445
 * #### Redis Time Series Database:
-**IP and Port**: From /scrape/.env, located on the node IARM is deployed.
+**IP and Port**: Acquired from and ENV file, mounted in /scrape/.env as a HostPath, located on the node IARM is deployed.
 * #### Redis Database:
-**IP**: 192.168.1.228, **Port**: 30002
+**Default local IP considered**: 192.168.1.228, **Port**: 30002
 
 ---
 ### Deploy IARM:
